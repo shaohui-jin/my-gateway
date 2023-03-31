@@ -1,41 +1,56 @@
 <template>
   <div class="options-container">
-    <div class="options-container_header">
-      <template v-for="(h, hI) in header" :key="h.key">
-        <span class="options-container_header-title" @click="h.onClick()">{{ h.title }}</span>
-        <el-divider v-if="hI !== header.length - 1" direction="vertical" />
-      </template>
-    </div>
-    <OptionsMeta v-if="optionType = meta" :meta="props.meta" @changeMeta="changeMeta" />
-    <div class="options-container_footer">
-      <el-progress :percentage="50" />
-      <el-progress :percentage="100" :format="format" />
-      <el-progress :percentage="100" status="success" />
-      <el-progress :percentage="100" status="warning" />
-      <el-progress :percentage="50" status="exception" />
-    </div>
+    <sla-collaspe>
+      <OptionItem
+        key="options-container_meta"
+        v-if="optionType === 'meta'"
+        :option="props.meta"
+        :formData="metaFormData"
+        @changeOption="changeMeta"
+      />
+    </sla-collaspe>
+    <OptionItem key="options-container_options" v-if="optionType === 'options'" :option="props.options" :formData="optionFormData" @changeOption="changeOptions" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { defineProps, defineEmits, ref, defineAsyncComponent, reactive } from 'vue';
-const OptionsMeta = defineAsyncComponent(() => import('./components/OptionsMeta.vue'));
-import { Meta, Header } from '@/interface/Mind';
+const OptionItem = defineAsyncComponent(() => import('./components/OptionItem.vue'));
+import type { Meta, Options, Header } from '@/interface/Mind';
+import { ThemeOption } from '@/interface/Mind';
+import { BaseOptionItem } from '@/interface/Option';
 const props = defineProps({
   meta: {
     type: Object,
     require: true,
   },
+  options: {
+    type: Object,
+    require: true,
+  },
 });
 
-const emit = defineEmits(['changeMeta']);
-const changeMeta = (meta: Meta) => emit('changeMeta', meta);
-let optionType = ref('');
+const metaFormData: BaseOptionItem[] = [
+  { label: '名称', key: 'name', type: 'input' },
+  { label: '作者', key: 'author', type: 'input' },
+  { label: '作品版本', key: 'version', type: 'input' },
+];
+const optionFormData: BaseOptionItem[] = [
+  { label: '容器标识', key: 'container', type: 'input', disabled: true },
+  { label: '编辑权限', key: 'editable', type: 'switch' },
+  { label: '主题', key: 'theme', type: 'select', options: ThemeOption },
+];
+
+let optionType = ref<string>('meta');
 const header = reactive<Header[]>([
   { title: '基本信息', key: 1, onClick: () => (optionType.value = 'meta') },
-  { title: '基本信息1', key: 2, onClick: () => (optionType.value = 'meta') },
+  { title: '配置信息', key: 2, onClick: () => (optionType.value = 'options') },
   { title: '基本信息2', key: 3, onClick: () => (optionType.value = 'meta') },
-])
+]);
+
+const emit = defineEmits(['changeMeta', 'changeOptions']);
+const changeMeta = (meta: Meta) => emit('changeMeta', meta);
+const changeOptions = (options: Options) => emit('changeOptions', options);
 </script>
 
 <style lang="less" scoped>
@@ -46,9 +61,9 @@ const header = reactive<Header[]>([
   right: 20px;
   height: 80vh;
   width: 350px;
-  background-color: rosybrown;
   border-radius: 10px;
-  border: 1px solid #1c8bf8;
+  background: var(--bg-color-float);
+  box-shadow: 0 1px 3px 1px var(--card-shadow);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -59,10 +74,9 @@ const header = reactive<Header[]>([
     line-height: 48px;
     .options-container_header-title {
       cursor: pointer;
+      font-weight: 600;
+      color: var(--text-color);
     }
-  }
-  .options-container_footer {
-    height: 50px;
   }
 }
 </style>

@@ -3,6 +3,8 @@
     <!--    <el-input :value="JSON.stringify(props.meta, '', 4)" @input="changeMeta" :rows="20" type="textarea" />-->
     <!--    <el-input :value="JSON.stringify(props.meta, '', 4)" @input="changeMeta" :rows="20" type="textarea" />-->
     {{ props.meta }}
+    <br />
+    {{ props.options }}
   </div>
 </template>
 
@@ -12,6 +14,10 @@ import { Meta } from '@/interface/Mind';
 
 const props = defineProps({
   meta: {
+    type: Object,
+    require: true,
+  },
+  options: {
     type: Object,
     require: true,
   },

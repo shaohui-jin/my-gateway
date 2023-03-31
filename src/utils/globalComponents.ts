@@ -5,7 +5,7 @@
 // import radio from '@/components/common/radio.vue';
 // import searchCover from '@/components/common/searchCover.vue';
 // import skeleton1 from '@/components/skeleton1.vue';
-// import skeleton2 from '@/components/skeleton2.vue';
+import Collapse from '@/components/Collapse/index.vue';
 import { App } from 'vue';
 
 export function globalComponents(app: App) {
@@ -16,5 +16,5 @@ export function globalComponents(app: App) {
   // app.component('Radio', radio);
   // app.component('SearchCover', searchCover);
   // app.component('Skeleton1', skeleton1);
-  // app.component('Skeleton2', skeleton2);
+  app.component('sla-collapse', Collapse);
 }

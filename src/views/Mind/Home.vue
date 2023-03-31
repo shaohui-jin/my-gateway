@@ -1,16 +1,22 @@
 <template>
-  <Code :options="options" :meta="meta" @changeMeta="changeMeta" />
+  <LeftComponent :options="options" :meta="meta" @changeMeta="changeMeta" />
   <div id="container" class="container"></div>
-  <Options :meta="meta" @changeMeta="changeMeta" />
+  <RightComponent
+    :meta="meta"
+    :options="options"
+    @changeMeta="changeMeta"
+    @changeOptions="changeOptions"
+
+  />
 </template>
 
 <script lang="ts" setup>
 import { onMounted, watch, reactive, ref, defineAsyncComponent, getCurrentInstance } from 'vue';
-import '@/utils/init-Jsmind';
-import { Meta } from '@/interface/Mind';
+const LeftComponent = defineAsyncComponent(() => import('./Code.vue'));
+const RightComponent = defineAsyncComponent(() => import('./Options.vue'));
+import { Meta, Options, THEME, MODE, LOGLEVEL } from '@/interface/Mind';
 
-const Code = defineAsyncComponent(() => import('./Code.vue'));
-const Options = defineAsyncComponent(() => import('./Options.vue'));
+import '@/utils/init-Jsmind';
 const { appContext } = getCurrentInstance();
 
 let meta = reactive<Meta>({
@@ -80,13 +86,13 @@ let data = reactive({
     },
   ],
 });
-let options = reactive({
-  container: 'container', // [必选] 容器的ID
-  editable: false, // 是否启用编辑
-  theme: null, // 主题
-  mode: 'full', // 布局模式
-  support_html: true, // 是否支持节点里的HTML元素
-  log_level: 'info', // 日志级别
+let options = reactive<Options>({
+  container: 'container',
+  editable: true,
+  theme: THEME.BELIZEHOLE,
+  mode: MODE.FULL,
+  support_html: true,
+  log_level: LOGLEVEL.INFO, // 日志级别
   view: {
     engine: 'canvas', // 思维导图各节点之间线条的绘制引擎
     hmargin: 100, // 思维导图距容器外框的最小水平距离
@@ -136,14 +142,17 @@ onMounted(() => {
   );
 });
 
-const changeMeta = (value: Meta) => {
-  console.log('changeMeta', value);
-  appContext.config.globalProperties.$setReactive(meta, value);
-};
+const changeMeta = (value: Meta) => appContext.config.globalProperties.$setReactive(meta, value);
+const changeOptions = (value: Options) => appContext.config.globalProperties.$setReactive(options, value);
+
 </script>
 <style lang="less" scoped>
+body {
+  color: var(--text-color);
+}
 .container {
   width: 100vw;
   height: 100vh;
+  background-color: var(--bg-color);
 }
 </style>
