@@ -1,61 +1,50 @@
 <template>
   <div class="options-container">
-    <sla-collaspe>
-      <OptionItem
-        key="options-container_meta"
-        v-if="optionType === 'meta'"
-        :option="props.meta"
-        :formData="metaFormData"
-        @changeOption="changeMeta"
-      />
-    </sla-collaspe>
-    <OptionItem key="options-container_options" v-if="optionType === 'options'" :option="props.options" :formData="optionFormData" @changeOption="changeOptions" />
+    <sla-collapse
+      :title="collapseOptions['meta'].title"
+      v-model:visible="collapseOptions['meta'].visible"
+      @handle-tab="bool => handleVisible('meta', bool)"
+    >
+      <MetaTab />
+    </sla-collapse>
+    <sla-collapse
+      :title="collapseOptions['options'].title"
+      v-model:visible="collapseOptions['options'].visible"
+      @handle-tab="bool => handleVisible('options', bool)"
+    >
+      <OptionsTab />
+    </sla-collapse>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits, ref, defineAsyncComponent, reactive } from 'vue';
-const OptionItem = defineAsyncComponent(() => import('./components/OptionItem.vue'));
-import type { Meta, Options, Header } from '@/interface/Mind';
-import { ThemeOption } from '@/interface/Mind';
-import { BaseOptionItem } from '@/interface/Option';
-const props = defineProps({
-  meta: {
-    type: Object,
-    require: true,
-  },
-  options: {
-    type: Object,
-    require: true,
-  },
+import type { CollapseOptionKey, Collapse } from '@/interface/Mind';
+import { defineAsyncComponent, reactive, getCurrentInstance } from 'vue';
+const MetaTab = defineAsyncComponent(() => import('./components/MetaTab.vue'));
+const OptionsTab = defineAsyncComponent(() => import('./components/OptionsTab.vue'));
+const appContext = getCurrentInstance()?.appContext;
+
+const collapseOptions = reactive<Collapse>({
+  meta: { title: '基本信息', visible: true },
+  options: { title: '配置信息', visible: false },
 });
-
-const metaFormData: BaseOptionItem[] = [
-  { label: '名称', key: 'name', type: 'input' },
-  { label: '作者', key: 'author', type: 'input' },
-  { label: '作品版本', key: 'version', type: 'input' },
-];
-const optionFormData: BaseOptionItem[] = [
-  { label: '容器标识', key: 'container', type: 'input', disabled: true },
-  { label: '编辑权限', key: 'editable', type: 'switch' },
-  { label: '主题', key: 'theme', type: 'select', options: ThemeOption },
-];
-
-let optionType = ref<string>('meta');
-const header = reactive<Header[]>([
-  { title: '基本信息', key: 1, onClick: () => (optionType.value = 'meta') },
-  { title: '配置信息', key: 2, onClick: () => (optionType.value = 'options') },
-  { title: '基本信息2', key: 3, onClick: () => (optionType.value = 'meta') },
-]);
-
-const emit = defineEmits(['changeMeta', 'changeOptions']);
-const changeMeta = (meta: Meta) => emit('changeMeta', meta);
-const changeOptions = (options: Options) => emit('changeOptions', options);
+const handleVisible = (type: CollapseOptionKey, bool: boolean) => {
+  const options: Collapse = JSON.parse(JSON.stringify(collapseOptions));
+  // 打开的时候关闭其他，防止关闭时打开其他
+  if (bool) {
+    (Object.keys(options) as CollapseOptionKey[]).forEach((key: CollapseOptionKey) => {
+      if (key !== type) {
+        options[key].visible = !bool;
+      }
+    });
+    appContext.config.globalProperties.$setReactive(collapseOptions, options);
+  }
+};
 </script>
 
 <style lang="less" scoped>
 .options-container {
-  z-index: 99999;
+  z-index: 1000;
   position: absolute;
   top: 10vh;
   right: 20px;
@@ -67,16 +56,5 @@ const changeOptions = (options: Options) => emit('changeOptions', options);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  .options-container_header {
-    width: 100%;
-    height: 48px;
-    padding: 0 16px;
-    line-height: 48px;
-    .options-container_header-title {
-      cursor: pointer;
-      font-weight: 600;
-      color: var(--text-color);
-    }
-  }
 }
 </style>

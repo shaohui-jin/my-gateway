@@ -1,14 +1,4 @@
-export interface Header {
-  key: number; // 关键字
-  title: string; // 标题
-  onClick?: () => void; // 点击事件
-}
-
-export interface Meta {
-  name: string;
-  author: string;
-  version: string;
-}
+export * from './common';
 
 export enum THEME {
   PRIMARY = 'primary',
@@ -48,7 +38,6 @@ export enum MODE {
   FULL = 'full', // 子节点动态分布在根节点两侧 [默认值]
   SIDE = 'side', // 子节点只分布在根节点右侧
 }
-
 export enum LOGLEVEL {
   DEBUG = 'debug',
   INFO = 'info',
@@ -56,6 +45,13 @@ export enum LOGLEVEL {
   ERROR = 'error',
   DISABLE = 'disable',
 }
+
+export interface Meta {
+  name: string;
+  author: string;
+  version: string;
+}
+
 export interface Options {
   container: string; // [必选] 容器的ID
   editable: boolean | false; // 是否启用编辑
