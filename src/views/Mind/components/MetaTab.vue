@@ -1,6 +1,6 @@
 <template>
   <div class="meta-tab-container">
-    <el-form :model="meta" label-width="80px">
+    <el-form :model="meta" label-width="120px">
       <el-form-item label="名称">
         <el-input v-model="meta.name" style="width: 90%" />
       </el-form-item>

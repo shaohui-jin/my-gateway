@@ -14,6 +14,13 @@
     >
       <OptionsTab />
     </sla-collapse>
+    <sla-collapse
+      :title="collapseOptions['view'].title"
+      v-model:visible="collapseOptions['view'].visible"
+      @handle-tab="bool => handleVisible('view', bool)"
+    >
+      <ViewTab />
+    </sla-collapse>
   </div>
 </template>
 
@@ -22,11 +29,13 @@ import type { CollapseOptionKey, Collapse } from '@/interface/Mind';
 import { defineAsyncComponent, reactive, getCurrentInstance } from 'vue';
 const MetaTab = defineAsyncComponent(() => import('./components/MetaTab.vue'));
 const OptionsTab = defineAsyncComponent(() => import('./components/OptionsTab.vue'));
-const appContext = getCurrentInstance()?.appContext;
+const ViewTab = defineAsyncComponent(() => import('./components/ViewTab.vue'));
+const appContext: any = getCurrentInstance()?.appContext;
 
 const collapseOptions = reactive<Collapse>({
   meta: { title: '基本信息', visible: true },
   options: { title: '配置信息', visible: false },
+  view: { title: '视图信息', visible: false },
 });
 const handleVisible = (type: CollapseOptionKey, bool: boolean) => {
   const options: Collapse = JSON.parse(JSON.stringify(collapseOptions));
@@ -49,7 +58,7 @@ const handleVisible = (type: CollapseOptionKey, bool: boolean) => {
   top: 10vh;
   right: 20px;
   height: 80vh;
-  width: 350px;
+  width: 450px;
   border-radius: 10px;
   background: var(--bg-color-float);
   box-shadow: 0 1px 3px 1px var(--card-shadow);

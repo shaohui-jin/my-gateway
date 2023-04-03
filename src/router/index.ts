@@ -3,13 +3,14 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/home',
-  },
-  {
-    path: '/home',
     name: 'home',
+    // redirect: '/home',
     component: () => import(/* webpackChunkName: "about" */ '@/views/Mind/Home.vue'),
   },
+  // {
+  //   path: '/home',
+  //   name: 'home',
+  // },
 ];
 
 const router = createRouter({

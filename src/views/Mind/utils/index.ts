@@ -1,9 +1,9 @@
 import { reactive, ref, getCurrentInstance } from 'vue';
 import { ElMessage } from 'element-plus';
-import { LOGLEVEL, Meta, MODE, Options, THEME } from '@/interface/Mind';
+import { LOGLEVEL, Meta, MODE, Options, THEME, ENGINE, NODE_OVERFLOW } from '@/interface/Mind';
 import '@/utils/init-Jsmind';
 
-export const meta = reactive<Meta>({
+export const meta: Meta = reactive<Meta>({
   name: 'jsMind remote',
   author: 'hizzgdev@163.com',
   version: '0.2',
@@ -70,22 +70,22 @@ export const data = reactive({
     },
   ],
 });
-export const options = reactive<Options>({
+export const options: Options = reactive<Options>({
   container: 'container',
   editable: true,
   theme: THEME.BELIZEHOLE,
   mode: MODE.FULL,
   support_html: true,
-  log_level: LOGLEVEL.INFO, // 日志级别
+  log_level: LOGLEVEL.INFO,
   view: {
-    engine: 'canvas', // 思维导图各节点之间线条的绘制引擎
-    hmargin: 100, // 思维导图距容器外框的最小水平距离
-    vmargin: 50, // 思维导图距容器外框的最小垂直距离
-    line_width: 2, // 思维导图线条的粗细
-    line_color: '#555', // 思维导图线条的颜色
-    draggable: false, // 当容器不能完全容纳思维导图时，是否允许拖动画布代替鼠标滚动
-    hide_scrollbars_when_draggable: false, // 当设置 draggable = true 时，是否隐藏滚动条
-    node_overflow: 'hidden', // 节点文本过长时的样式
+    engine: ENGINE.SVG,
+    hmargin: 100,
+    vmargin: 50,
+    line_width: 2,
+    line_color: '#555',
+    draggable: true,
+    hide_scrollbars_when_draggable: true,
+    node_overflow: NODE_OVERFLOW.HIDDEN,
   },
   layout: {
     hspace: 30, // 节点之间的水平间距
@@ -111,24 +111,75 @@ export const options = reactive<Options>({
 });
 export let _jm: any = null;
 
+/**
+ * 初始化
+ */
 export const open_view = () => {
   const mind = { meta, data, format: format.value };
   _jm = new window.jsMind(options);
   _jm.show(mind);
 };
 
+/**
+ * 设置主题
+ * @param theme_name
+ */
 export const set_theme = (theme_name: THEME) => {
   _jm.set_theme(theme_name);
 };
 
+/**
+ * 设置 是否启用编辑
+ * @param bool
+ */
 export const handle_editable = (bool: boolean) => {
   if (bool) {
-    _jm.disable_edit();
-    ElMessage.warning('当前思维导图状态：不可操作');
-  } else {
     _jm.enable_edit();
     ElMessage.success('当前思维导图状态：可操作');
+  } else {
+    _jm.disable_edit();
+    ElMessage.warning('当前思维导图状态：不可操作');
   }
+};
+
+/**
+ * 设置 是否支持节点里的HTML元素
+ * @param bool
+ */
+export const handle_support_html = (bool: boolean) => {
+  // todo 这里没实际相应
+  if (bool) {
+    ElMessage.success('当前思维导图状态：支持节点里的HTML元素');
+  } else {
+    ElMessage.warning('当前思维导图状态：不支持节点里的HTML元素');
+  }
+};
+
+/**
+ * 设置 日志级别
+ * @param log_level
+ */
+export const set_log_level = (log_level: LOGLEVEL) => {
+  // todo 这里没实际相应
+  ElMessage.success(`当前思维导图日志级别：${log_level}`);
+};
+
+export const reload = () => {
+  // _jm._reset();
+  // const mind = { meta, data, format: format.value };
+  // _jm.show(mind);
+  // todo 这里没实际相应
+  // _jm.init();
+};
+// // this method change size of container, perpare for adjusting jsmind
+// function change_container() {
+//   const c = document.getElementById('jsmind_container');
+//   c.style.width = '800px';
+//   c.style.height = '500px';
+// }
+//
+export const resize_jsmind = () => {
+  _jm.resize();
 };
 
 // function open_json() {
@@ -430,16 +481,7 @@ export const handle_editable = (bool: boolean) => {
 //
 
 //
-// // this method change size of container, perpare for adjusting jsmind
-// function change_container() {
-//   const c = document.getElementById('jsmind_container');
-//   c.style.width = '800px';
-//   c.style.height = '500px';
-// }
-//
-// function resize_jsmind() {
-//   _jm.resize();
-// }
+
 //
 // function expand() {
 //   const selected_id = get_selected_nodeid();
