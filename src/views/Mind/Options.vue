@@ -27,9 +27,9 @@
 <script lang="ts" setup>
 import type { CollapseOptionKey, Collapse } from '@/interface/Mind';
 import { defineAsyncComponent, reactive, getCurrentInstance } from 'vue';
-const MetaTab = defineAsyncComponent(() => import('./components/MetaTab.vue'));
-const OptionsTab = defineAsyncComponent(() => import('./components/OptionsTab.vue'));
-const ViewTab = defineAsyncComponent(() => import('./components/ViewTab.vue'));
+const MetaTab = defineAsyncComponent(() => import('./page/MetaTab.vue'));
+const OptionsTab = defineAsyncComponent(() => import('./page/OptionsTab.vue'));
+const ViewTab = defineAsyncComponent(() => import('./page/ViewTab.vue'));
 const appContext: any = getCurrentInstance()?.appContext;
 
 const collapseOptions = reactive<Collapse>({

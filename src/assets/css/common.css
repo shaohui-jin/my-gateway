@@ -5,6 +5,8 @@ html[data-theme=dark] {
     --bg-color-float: #252934;
     --theme-color: #5c92d1;
     --text-color: #9e9e9e;
+    --border-hover-color: #409eff;
+
 
     --info-title-color: #eef9fd;
     --info-bg-color: #193c47;

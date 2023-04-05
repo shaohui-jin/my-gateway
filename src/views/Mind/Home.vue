@@ -1,18 +1,15 @@
 <template>
-  <LeftComponent />
-  <div id="container" class="container"></div>
-  <RightComponent />
+  <!--  <LeftComponent />-->
+  <ToolBox />
+  <RightComponent v-show="has_setting" />
 </template>
 
 <script lang="ts" setup>
 import { onMounted, defineAsyncComponent } from 'vue';
 const LeftComponent = defineAsyncComponent(() => import('./Code.vue'));
 const RightComponent = defineAsyncComponent(() => import('./Options.vue'));
-
-import { open_view } from './utils';
-onMounted(() => {
-  open_view();
-});
+const ToolBox = defineAsyncComponent(() => import('./component/ToolBox.vue'));
+import { has_setting } from '@/views/Mind/utils';
 </script>
 <style lang="less" scoped>
 body {

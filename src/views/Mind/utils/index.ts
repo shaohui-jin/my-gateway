@@ -2,14 +2,16 @@ import { reactive, ref, getCurrentInstance } from 'vue';
 import { ElMessage } from 'element-plus';
 import { LOGLEVEL, Meta, MODE, Options, THEME, ENGINE, NODE_OVERFLOW } from '@/interface/Mind';
 import '@/utils/init-Jsmind';
+import 'jsmind/js/jsmind.draggable-node.js'; // 基于 window.jsMind
+import 'jsmind/js/jsmind.screenshot.js'; // 基于 window.jsMind
 
 export const meta: Meta = reactive<Meta>({
-  name: 'jsMind remote',
-  author: 'hizzgdev@163.com',
-  version: '0.2',
+  name: 'jsMind-demo',
+  author: 'demo@163.com',
+  version: '0.0.1',
 });
 export const format = ref('node_tree');
-export const data = reactive({
+export const defaultData = reactive({
   id: 'root',
   topic: 'jsMind',
   children: [
@@ -70,6 +72,10 @@ export const data = reactive({
     },
   ],
 });
+export const emptyData = reactive({
+  id: 'root',
+  topic: 'jsMind',
+});
 export const options: Options = reactive<Options>({
   container: 'container',
   editable: true,
@@ -111,11 +117,54 @@ export const options: Options = reactive<Options>({
 });
 export let _jm: any = null;
 
+export const has_init = ref<boolean>(false);
+export const has_setting = ref<boolean>(false);
+
+/**
+ * 改变 has_init 渲染状态
+ * @param bool
+ */
+export const handleInit = (bool: boolean) => {
+  if (bool) {
+    initContainer();
+  } else {
+    destroyContainer();
+  }
+};
+
+/**
+ * 渲染容器
+ */
+const initContainer = () => {
+  const app: HTMLElement = document.getElementById('app') || new HTMLElement();
+  const div = document.createElement('div');
+  div.id = `${options.container}`;
+  div.className = 'container';
+  div.style.width = '100vw';
+  div.style.height = '100vh';
+  div.style.backgroundColor = `var(--bg-color)`;
+  app.appendChild(div);
+  has_init.value = true;
+};
+
+/**
+ * 销毁容器
+ */
+const destroyContainer = () => {
+  const app: HTMLElement = document.getElementById('app') || new HTMLElement();
+  app.removeChild(document.getElementsByClassName('container')[0] as HTMLElement);
+  has_init.value = false;
+};
 /**
  * 初始化
  */
-export const open_view = () => {
-  const mind = { meta, data, format: format.value };
+export const open_view = (type: 'default' | 'empty' = 'empty') => {
+  handleInit(true);
+  const mind = {
+    meta,
+    data: type === 'empty' ? emptyData : defaultData,
+    format: format.value,
+  };
   _jm = new window.jsMind(options);
   _jm.show(mind);
 };
@@ -162,6 +211,13 @@ export const handle_support_html = (bool: boolean) => {
 export const set_log_level = (log_level: LOGLEVEL) => {
   // todo 这里没实际相应
   ElMessage.success(`当前思维导图日志级别：${log_level}`);
+};
+
+/**
+ * 截图下载
+ */
+export const screen_shot = () => {
+  _jm.screenshot.shootDownload();
 };
 
 export const reload = () => {
