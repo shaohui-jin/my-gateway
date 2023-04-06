@@ -20,14 +20,14 @@
     <el-icon :size="30" v-if="has_init" @click="handleInit(false)"><Minus /></el-icon>
     <el-icon :size="30" v-if="has_init" @click="copyData"><CopyDocument /></el-icon>
     <el-icon :size="30" v-if="has_init" @click="screen_shot"><Camera /></el-icon>
-    <el-icon :size="30" v-if="has_init" @click="has_setting = !has_setting"><Setting /></el-icon>
+    <el-icon :size="30" v-if="has_init" @click="has_setting = !has_setting"><SetUp /></el-icon>
     <!--    <el-icon :size="30" v-if="has_init"><More /></el-icon>-->
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { Plus, CopyDocument, Setting, Camera, More, Folder, FolderAdd, Minus } from '@element-plus/icons-vue';
+import { Plus, CopyDocument, SetUp, Camera, More, Folder, FolderAdd, Minus } from '@element-plus/icons-vue';
 import { has_init, has_setting, handleInit, copyData, open_view, screen_shot } from '@/views/Mind/utils';
 
 const visible = ref<boolean>(false);

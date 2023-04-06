@@ -1,5 +1,5 @@
 <template>
-  <!--  <LeftComponent />-->
+  <LeftComponent v-show="has_setting" />
   <ToolBox />
   <RightComponent v-show="has_setting" />
 </template>
