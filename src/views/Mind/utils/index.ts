@@ -1,6 +1,7 @@
 import { reactive, ref, getCurrentInstance } from 'vue';
 import { ElMessage } from 'element-plus';
 import { LOGLEVEL, Meta, MODE, Options, THEME, ENGINE, NODE_OVERFLOW } from '@/interface/Mind';
+import copy from 'copy-to-clipboard';
 import '@/utils/init-Jsmind';
 import 'jsmind/js/jsmind.draggable-node.js'; // 基于 window.jsMind
 import 'jsmind/js/jsmind.screenshot.js'; // 基于 window.jsMind
@@ -24,12 +25,6 @@ export const defaultData = reactive({
         { id: 'easy2', topic: 'Easy to edit' },
         { id: 'easy3', topic: 'Easy to store' },
         { id: 'easy4', topic: 'Easy to embed' },
-        {
-          id: 'other3',
-          'background-image': 'ant.png',
-          width: '100',
-          height: '100',
-        },
       ],
     },
     {
@@ -116,7 +111,7 @@ export const options: Options = reactive<Options>({
   },
 });
 export let _jm: any = null;
-
+export const data_type = ref<'default' | 'empty'>('empty');
 export const has_init = ref<boolean>(false);
 export const has_setting = ref<boolean>(false);
 
@@ -155,10 +150,25 @@ const destroyContainer = () => {
   app.removeChild(document.getElementsByClassName('container')[0] as HTMLElement);
   has_init.value = false;
 };
+
+/**
+ * 拷贝数据
+ */
+export const copyData = () => {
+  const mind = {
+    meta,
+    data: data_type.value === 'empty' ? emptyData : defaultData,
+    format: format.value,
+  };
+  copy(JSON.stringify(mind));
+  ElMessage.success('复制成功');
+};
+
 /**
  * 初始化
  */
 export const open_view = (type: 'default' | 'empty' = 'empty') => {
+  data_type.value = type;
   handleInit(true);
   const mind = {
     meta,
