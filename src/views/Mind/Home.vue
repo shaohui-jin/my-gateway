@@ -1,7 +1,7 @@
 <template>
-  <LeftComponent v-show="has_setting" />
+  <!--  <LeftComponent />-->
   <ToolBox />
-  <RightComponent v-show="has_setting" />
+  <RightComponent v-show="!has_setting" />
 </template>
 
 <script lang="ts" setup>

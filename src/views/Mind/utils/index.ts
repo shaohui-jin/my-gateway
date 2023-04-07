@@ -113,43 +113,7 @@ export const options: Options = reactive<Options>({
 export let _jm: any = null;
 export const data_type = ref<'default' | 'empty'>('empty');
 export const has_init = ref<boolean>(false);
-export const has_setting = ref<boolean>(false);
-
-/**
- * 改变 has_init 渲染状态
- * @param bool
- */
-export const handleInit = (bool: boolean) => {
-  if (bool) {
-    initContainer();
-  } else {
-    destroyContainer();
-  }
-};
-
-/**
- * 渲染容器
- */
-const initContainer = () => {
-  const app: HTMLElement = document.getElementById('app') || new HTMLElement();
-  const div = document.createElement('div');
-  div.id = `${options.container}`;
-  div.className = 'container';
-  div.style.width = '100vw';
-  div.style.height = '100vh';
-  div.style.backgroundColor = `var(--bg-color)`;
-  app.appendChild(div);
-  has_init.value = true;
-};
-
-/**
- * 销毁容器
- */
-const destroyContainer = () => {
-  const app: HTMLElement = document.getElementById('app') || new HTMLElement();
-  app.removeChild(document.getElementsByClassName('container')[0] as HTMLElement);
-  has_init.value = false;
-};
+export const has_setting = ref<boolean>(true);
 
 /**
  * 拷贝数据
@@ -165,14 +129,59 @@ export const copyData = () => {
 };
 
 /**
- * 初始化
+ * 初始化配置表格
  */
-export const open_view = (type: 'default' | 'empty' = 'empty') => {
+export const open_setting_view = (type: 'default' | 'empty' = 'empty') => {
   data_type.value = type;
-  handleInit(true);
+  has_setting.value = false;
+};
+
+/**
+ * 保存配置信息
+ */
+export const save_setting = () => {
+  has_setting.value = true;
+  init(true);
+  init_mind();
+};
+
+/**
+ * 初始化容器
+ * @param bool
+ */
+export const init = (bool: boolean) => (bool ? init_container() : destroy_container());
+
+/**
+ * 渲染容器
+ */
+const init_container = () => {
+  const app: HTMLElement = document.getElementById('app') || new HTMLElement();
+  const div = document.createElement('div');
+  div.id = `${options.container}`;
+  div.className = 'container';
+  div.style.width = '100vw';
+  div.style.height = '100vh';
+  div.style.backgroundColor = `var(--bg-color)`;
+  app.appendChild(div);
+  has_init.value = true;
+};
+
+/**
+ * 销毁容器
+ */
+const destroy_container = () => {
+  const app: HTMLElement = document.getElementById('app') || new HTMLElement();
+  app.removeChild(document.getElementsByClassName('container')[0] as HTMLElement);
+  has_init.value = false;
+};
+
+/**
+ * 渲染mind
+ */
+const init_mind = () => {
   const mind = {
     meta,
-    data: type === 'empty' ? emptyData : defaultData,
+    data: data_type.value === 'empty' ? emptyData : defaultData,
     format: format.value,
   };
   _jm = new window.jsMind(options);
@@ -183,9 +192,7 @@ export const open_view = (type: 'default' | 'empty' = 'empty') => {
  * 设置主题
  * @param theme_name
  */
-export const set_theme = (theme_name: THEME) => {
-  _jm.set_theme(theme_name);
-};
+export const set_theme = (theme_name: THEME) => _jm.set_theme(theme_name);
 
 /**
  * 设置 是否启用编辑

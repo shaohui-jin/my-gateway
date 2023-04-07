@@ -1,7 +1,7 @@
 <template>
-  <div class="sla-collapse-container">
+  <div class="sla-collapse-container" :class="[visible ? 'show' : 'close']">
     <div class="sla-collapse-container_header" @click="changeVisible">
-      <div class="header_title">{{ props.title }}</div>
+      <div class="header_title" :class="{ selected: visible }">{{ props.title }}</div>
       <el-icon :class="{ 'arrow-up': visible }"><ArrowUp /></el-icon>
     </div>
     <div class="sla-collapse-container_body" :class="{ visible: props.visible }">
@@ -31,15 +31,27 @@ const changeVisible = () => {
 
 <style lang="less" scoped>
 .sla-collapse-container {
+  &.show {
+    flex: 1;
+  }
+  &.close {
+    height: 38px;
+  }
+  display: flex;
+  flex-direction: column;
   .sla-collapse-container_header {
-    height: 48px;
-    padding: 0 16px;
+    height: 38px;
+    padding: 0 12px;
+    font-size: 14px;
     color: var(--text-color);
     display: flex;
     align-items: center;
     justify-content: space-between;
     .header_title {
-      font-weight: 600;
+      font-weight: 500;
+      &.selected {
+        color: var(--text-hover-color);
+      }
     }
     &:hover {
       cursor: pointer;
@@ -52,11 +64,15 @@ const changeVisible = () => {
     }
   }
   .sla-collapse-container_body {
-    overflow: hidden;
     height: 0;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
     &.visible {
       transition: all 0.5s ease-in-out;
-      height: 100%;
+      flex: 1 1 0;
+      border-top: 1px solid var(--text-hover-color);
     }
   }
 }
