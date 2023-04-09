@@ -36,7 +36,7 @@
 <script lang="ts" setup>
 import { getCurrentInstance, reactive } from 'vue';
 const { appContext } = getCurrentInstance();
-const isOnload: boolean = document.location.href === 'jin-shaohui.gitee.io';
+const isOnload: boolean = document.location.host === 'jin-shaohui.gitee.io';
 const toUrl = (url: string) => {
   // isOnload ? (document.location.href = url) : appContext.config.globalProperties.$message.warning('运行时限制跳转');
   isOnload ? window.open(`${url}`) : appContext.config.globalProperties.$message.warning('运行时限制跳转');
