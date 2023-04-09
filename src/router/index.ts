@@ -4,13 +4,13 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    // redirect: '/home',
+    component: () => import(/* webpackChunkName: "about" */ '@/views/Home/Home.vue'),
+  },
+  {
+    path: '/mind',
+    name: 'mind',
     component: () => import(/* webpackChunkName: "about" */ '@/views/Mind/Home.vue'),
   },
-  // {
-  //   path: '/home',
-  //   name: 'home',
-  // },
 ];
 
 const router = createRouter({

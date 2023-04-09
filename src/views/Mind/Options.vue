@@ -65,17 +65,11 @@ const handleVisible = (type: CollapseOptionKey, bool: boolean) => {
   left: 50%;
   transform: translateX(-50%);
   height: 80vh;
-  min-width: 300px;
   border-radius: 10px;
   background: var(--bg-color-float);
   box-shadow: 0 1px 3px 1px var(--card-shadow);
-  //display: flex;
-  //flex-direction: column;
-  //overflow: hidden;
   .options-container_body {
-    //height: 75vh;
     height: calc(100% - 50px);
-    //overflow: hidden;
     display: flex;
     flex-direction: column;
   }
@@ -92,6 +86,18 @@ const handleVisible = (type: CollapseOptionKey, bool: boolean) => {
         border-color: var(--border-hover-color);
       }
     }
+  }
+}
+
+@media screen and (min-width: 10px) and (max-width: 500px) {
+  .options-container {
+    width: 300px;
+  }
+}
+
+@media screen and (min-width: 501px) {
+  .options-container {
+    width: 500px;
   }
 }
 </style>
