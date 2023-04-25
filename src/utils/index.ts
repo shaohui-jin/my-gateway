@@ -2,6 +2,7 @@ import { globalComponents } from './globalComponents';
 import { formatTime, formatNumber, setReactive } from './globalFunction';
 import service from '../service';
 import { App } from 'vue';
+import './array';
 
 export function install(app: App) {
   globalComponents(app);
