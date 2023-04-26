@@ -17,6 +17,29 @@ Array.prototype.groupBy = function (size: number) {
 };
 
 /**
+ * 相邻数据分组
+ */
+Array.prototype.groupByAdjoinSameData = function () {
+  let reduceIndex = 0;
+  const resultArray: number[][] = this.reduce((result, item, index, array) => {
+    const nextIndex = index + 1;
+    // 每次处理都会调整reduceIndex，防止重复处理数据
+    if (index === reduceIndex) {
+      // 防止最后两位合并后 reduceIndex 大于数组长度
+      if (nextIndex <= array.length && item === array[nextIndex]) {
+        result.push([item, array[nextIndex]]);
+        reduceIndex += 2;
+      } else {
+        result.push([item]);
+        reduceIndex += 1;
+      }
+    }
+    return result;
+  }, []);
+  return resultArray;
+};
+
+/**
  * 数组填充
  * @param size
  */

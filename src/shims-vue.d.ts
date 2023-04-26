@@ -11,6 +11,7 @@ interface Window {
 
 interface Array {
   groupBy(size: number): number[][];
+  groupByAdjoinSameData(): number[][];
   fill(size: number): number[][];
   rowToCol(): number[][];
   indexOf(key: number, num: number): number;

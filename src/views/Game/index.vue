@@ -1,15 +1,16 @@
 <template>
   <div class="game-container">
-    {{ gameOption.data }}
     <div class="game-body">
       <div v-for="(row, rI) in gameOption.data" :key="rI" class="game-body_row">
         <div v-for="(col, cI) in row" :key="cI" class="game-body_col">
-          <div class="game-body_item" :style="{ backgroundColor: ColorOption[col][0], color: ColorOption[col][1] }">{{ col }}</div>
+          <div class="game-body_item" :style="{ backgroundColor: ColorOption[col][0], color: ColorOption[col][1] }">
+            {{ col === 0 ? '' : col }}
+          </div>
         </div>
       </div>
     </div>
     <div class="game-footer">
-      <div class="game-button" @click="newGame">开始</div>
+      <div class="game-button" @click="newGame">重新开始</div>
     </div>
   </div>
 </template>
