@@ -89,7 +89,9 @@ onMounted(() => {
   //line-height: 50px;
   .game-button {
     cursor: pointer;
-    width: 60px;
+    //width: 60px;
+    //width: auto;
+    padding: 0 12px;
     height: 30px;
     line-height: 30px;
     border-radius: 15px;
