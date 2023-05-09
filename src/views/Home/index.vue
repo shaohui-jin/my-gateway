@@ -16,9 +16,10 @@
         <nav>
           <ul>
             <li><a target="_blank" href="https://gitee.com/jin-shaohui">SLA Gitee✨</a></li>
-            <li><a target="_blank" href="https://jin-shaohui.gitee.io">SLA 博客✨</a></li>
-            <li><a target="_blank" href="https://jin-shaohui.gitee.io/vue3-webpack-music/#/">SLA 网易云✨</a></li>
-            <li><a target="_blank" href="https://jin-shaohui.gitee.io/vue3-vite-work">SLA 通用中后台✨</a></li>
+            <li><a target="_blank" href="https://github.com/13422189334">SLA Github✨</a></li>
+            <li><a target="_blank" href="https://13422189334.github.io/my-blog/">SLA 博客✨</a></li>
+            <li><a target="_blank" href="https://13422189334.github.io/my-netease-cloud/">SLA 网易云✨</a></li>
+            <li><a target="_blank" href="https://13422189334.github.io/fork-vite-work/">SLA 通用中后台✨</a></li>
             <li><a target="_blank" style="cursor: pointer" @click="$router.push({ path: '/mind' })">SLA 思维导图✨</a></li>
             <li><a target="_blank" style="cursor: pointer" @click="$router.push({ path: '/game' })">SLA 2048✨</a></li>
             <!--<li><a href="#elements">Elements</a></li>-->
