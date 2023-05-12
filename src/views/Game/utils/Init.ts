@@ -1,9 +1,9 @@
 import { Direction, GameDataType, GameOptionType, OperateType } from '@/views/Game/interface';
 import { RegisterEvent, UnRegisterEvent } from '@/views/Game/utils/Event';
 import { ElMessage } from 'element-plus';
-
+import { watch, reactive } from 'vue';
 let has_init = false;
-let game_data: GameOptionType = {
+let game_data = reactive<GameOptionType>({
   size: 4,
   data: [
     [0, 0, 0, 0],
@@ -11,7 +11,8 @@ let game_data: GameOptionType = {
     [0, 0, 0, 0],
     [0, 0, 0, 0],
   ],
-};
+});
+
 const getOperaEvent = (option: GameOptionType) => {
   return {
     left: () => to_left(option),
@@ -30,6 +31,24 @@ export const start_game = (option: GameOptionType) => {
   init_game_data(option);
   // 注册监听
   if (!has_init) {
+    /**
+     * 监听游戏是否结束
+     */
+    watch(
+      () => game_data.data,
+      () => {
+        console.log(12312312);
+        const data: GameDataType[] = JSON.parse(JSON.stringify(game_data.data));
+        const size: number = JSON.parse(JSON.stringify(game_data.size));
+        const flatData: GameDataType = data.flat();
+        // 看看有多少个无数据的位置
+        const zeroList = flatData.filter(e => e === 0); // 为0的数组
+        if (zeroList.length === 0) {
+          game_over('lose', game_data);
+          return false;
+        }
+      }
+    );
     RegisterEvent(getOperaEvent(option));
     has_init = true;
   }
@@ -71,8 +90,10 @@ const to_left = (game_data: GameOptionType) => {
     const merge: GameDataType = merge_row(row);
     return merge.fill(4) as any as GameDataType;
   });
-  game_data.data = result;
-  add_point(game_data);
+  if (game_data.data.toString() !== result.toString()) {
+    game_data.data = result;
+    add_point(game_data);
+  }
 };
 
 const to_right = (game_data: GameOptionType) => {
@@ -81,8 +102,10 @@ const to_right = (game_data: GameOptionType) => {
     const merge: GameDataType = merge_row(row.reverse());
     return merge.fill(4).reverse() as any as GameDataType;
   });
-  game_data.data = result;
-  add_point(game_data);
+  if (game_data.data.toString() !== result.toString()) {
+    game_data.data = result;
+    add_point(game_data);
+  }
 };
 
 const to_up = (game_data: GameOptionType) => {
@@ -91,8 +114,10 @@ const to_up = (game_data: GameOptionType) => {
     const merge: GameDataType = merge_row(row);
     return merge.fill(4) as any as GameDataType;
   });
-  game_data.data = result.rowToCol();
-  add_point(game_data);
+  if (game_data.data.toString() !== result.rowToCol().toString()) {
+    game_data.data = result.rowToCol();
+    add_point(game_data);
+  }
 };
 
 const to_down = (game_data: GameOptionType) => {
@@ -101,8 +126,10 @@ const to_down = (game_data: GameOptionType) => {
     const merge: GameDataType = merge_row(row.reverse());
     return merge.fill(4).reverse() as any as GameDataType;
   });
-  game_data.data = result.rowToCol();
-  add_point(game_data);
+  if (game_data.data.toString() !== result.rowToCol().toString()) {
+    game_data.data = result.rowToCol();
+    add_point(game_data);
+  }
 };
 
 const merge_row = (rowData: GameDataType) => {
@@ -144,10 +171,6 @@ const add_point = (game_data: GameOptionType) => {
   const flatData: GameDataType = data.flat();
   // 看看有多少个无数据的位置
   const zeroList = flatData.filter(e => e === 0); // 为0的数组
-  if (zeroList.length === 0) {
-    game_over('lose', game_data);
-    return false;
-  }
   // const min: number = flatData.filter(e => e !== 0).sort((a: number, b: number) => a - b)[0];
   // const randomData = min === 2 ? [2, 4] : [min / 2, min];
   const random = Math.random() >= 0.5 ? 2 : 4; // 随机数字
