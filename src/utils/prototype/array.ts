@@ -73,7 +73,7 @@ Array.prototype.rowToCol = function () {
 /**
  * 数组 findIndex 拓展
  */
-Array.prototype.indexOf = function (key: number, num: number) {
+Array.prototype.findIndexOf = function (key: number, num: number) {
   // 判断num是否数组越界
   const filterData = this.filter((e: number) => e === key);
   if (num > filterData.length) {

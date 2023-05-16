@@ -2,7 +2,7 @@ import { reactive, ref, getCurrentInstance } from 'vue';
 import { ElMessage } from 'element-plus';
 import { LOGLEVEL, Meta, MODE, Options, THEME, ENGINE, NODE_OVERFLOW } from '@/interface/Mind';
 import copy from 'copy-to-clipboard';
-import '@/utils/init-Jsmind';
+import '@/utils/cdn/jsmind';
 import 'jsmind/js/jsmind.draggable-node.js'; // 基于 window.jsMind
 import 'jsmind/js/jsmind.screenshot.js'; // 基于 window.jsMind
 

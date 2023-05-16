@@ -1,7 +1,9 @@
 // 初始化配置
 export interface GameOptionType {
   size: number; // 尺寸
+  score: number; // 分数
   data: GameDataType[]; // 游戏数据
+  watchEffect: boolean; // 检查数据是否游戏结束
 }
 // 游戏数据类型
 export type GameData = number;
