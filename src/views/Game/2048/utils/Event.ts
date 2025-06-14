@@ -36,6 +36,7 @@ const TouchEndEvent = (event: TouchEvent, layer: OperateType) => {
 
 export const RegisterEvent = (layer: OperateType) => {
   if (typeof document !== 'undefined' && document.addEventListener) {
+    console.log('RegisterEvent.....');
     document.addEventListener('keydown', (event: KeyboardEvent) => KeyDownEvent(event, layer));
 
     document.addEventListener('touchstart', (event: TouchEvent) => TouchStartEvent(event));
@@ -46,7 +47,7 @@ export const RegisterEvent = (layer: OperateType) => {
 
 export const UnRegisterEvent = (layer: OperateType) => {
   if (typeof document !== 'undefined' && document.removeEventListener) {
-    console.log('jinlaile');
+    console.log('UnRegisterEvent.....');
     document.removeEventListener('keydown', (event: KeyboardEvent) => KeyDownEvent(event, layer));
     document.removeEventListener('touchstart', (event: TouchEvent) => TouchStartEvent(event));
     document.removeEventListener('touchend', (event: TouchEvent) => TouchEndEvent(event, layer));

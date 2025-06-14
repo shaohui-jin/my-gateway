@@ -14,5 +14,5 @@ interface Array {
   groupByAdjoinSameData(): number[][];
   fill(size: number): number[][];
   rowToCol(): number[][];
-  indexOf(key: number, num: number): number;
+  findIndexOf(key: number, num: number): number;
 }
