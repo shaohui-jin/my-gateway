@@ -5,23 +5,24 @@
       <!-- Header -->
       <header class="main-container_header">
         <div class="icon">
-          <img src="@/assets/logo.jpg" alt="碎念个人引导页" title="碎念个人引导页" class="logo" />
+          <img src="@/assets/logo.jpg" alt="个人引导页" title="个人引导页" class="logo" />
         </div>
         <div class="content">
           <div class="inner">
-            <h1>石怜安_SLA 个人引导页</h1>
+            <h1>个人引导页</h1>
             <p>她只是途经我留下了星火&nbsp;而我却任凭它焚烧了我整个荒原</p>
           </div>
         </div>
         <nav>
           <ul>
-            <li><a target="_blank" href="https://gitee.com/jin-shaohui">SLA Gitee✨</a></li>
-            <li><a target="_blank" href="https://github.com/13422189334">SLA Github✨</a></li>
-            <li><a target="_blank" href="https://13422189334.github.io/my-blog/">SLA 博客✨</a></li>
-            <li><a target="_blank" href="https://13422189334.github.io/my-netease-cloud/">SLA 网易云✨</a></li>
-            <li><a target="_blank" href="https://13422189334.github.io/fork-vite-work/">SLA 通用中后台✨</a></li>
-            <li><a target="_blank" style="cursor: pointer" @click="$router.push({ path: '/mind' })">SLA 思维导图✨</a></li>
-            <li><a target="_blank" style="cursor: pointer" @click="$router.push({ path: '/game' })">SLA 2048✨</a></li>
+            <li><a target="_blank" href="https://gitee.com/jin-shaohui">Gitee✨</a></li>
+            <li><a target="_blank" href="https://github.com/shaohui-jin">Github✨</a></li>
+            <li><a target="_blank" href="https://shaohui-jin.github.io/my-blog/">博客✨</a></li>
+            <li><a target="_blank" href="https://shaohui-jin.github.io/my-netease-cloud/">网易云✨</a></li>
+            <li><a target="_blank" href="https://shaohui-jin.github.io/my-css-library/">CSS库✨</a></li>
+            <li><a target="_blank" href="https://shaohui-jin.github.io/my-tsx-cli/">Tsx模版✨</a></li>
+            <li><a target="_blank" style="cursor: pointer" @click="$router.push({ path: '/mind' })">思维导图✨</a></li>
+            <li><a target="_blank" style="cursor: pointer" @click="$router.push({ path: '/game' })">2048✨</a></li>
             <!--<li><a href="#elements">Elements</a></li>-->
           </ul>
         </nav>
